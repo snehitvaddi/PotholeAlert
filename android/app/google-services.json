@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "337458652030",
+    "project_id": "potholedetector-98da1",
+    "storage_bucket": "potholedetector-98da1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337458652030:android:34654994550eb18f9b092f",
+        "android_client_info": {
+          "package_name": "com.snehit.potholeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "337458652030-q3gc9kckuu48o0lqqp5htujlljda84g4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApRiv_OVmeIQnCEQpw8jvsoJ3ivCArIzk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "337458652030-q3gc9kckuu48o0lqqp5htujlljda84g4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
