@@ -9,23 +9,19 @@ import 'package:flutter/services.dart';
 import 'package:machine_learning_flutter_app/database/firestorefunctions.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:machine_learning_flutter_app/models/userdata.dart';
 
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  runApp(PotHoleApp());
-  
-//  await getCurrentUser().then((response) {
-//
-//    if (id == '') {
-//      userBox.put('id', response.id);
-//    }
-//
-//
-//
-//  });
+
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider<UserData>(create: (_) => UserData()),
+  ], child: PotHoleApp()));
+
+
 
 }
 
@@ -64,7 +60,7 @@ class _PotHoleAppState extends State<PotHoleApp> {
             var routes = <String, WidgetBuilder>{
               SignInScreen.id: (context) => SignInScreen(),
               CaptureScreen.id: (context) => CaptureScreen(),
-              ResultsScreen.id: (context) => ResultsScreen(),
+              ResultsScreen.id: (context) => ResultsScreen(settings.arguments),
               AlertScreen.id: (context) => AlertScreen(),
             };
             WidgetBuilder builder = routes[settings.name];

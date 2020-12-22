@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 
 class ResultsScreen extends StatefulWidget {
   static const String id = 'results_screen';
+  final String testResult;
+
+  ResultsScreen(this.testResult);
 
 
   @override
@@ -22,11 +25,8 @@ class _ResultsScreenState extends State<ResultsScreen>{
 
     return Scaffold(
       body: SafeArea(
-        child: Stack(
-          children: <Widget>[
-
-
-          ],
+        child: Center(
+          child: Text(widget.testResult),
         ),
       ),
     );

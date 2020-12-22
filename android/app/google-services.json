@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "337458652030",
+    "firebase_url": "https://potholedetector-98da1-default-rtdb.firebaseio.com",
     "project_id": "potholedetector-98da1",
     "storage_bucket": "potholedetector-98da1.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "337458652030-idlklnjgh6ao0l3f7t56errclq4umh0m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.snehit.potholeapp",
+            "certificate_hash": "fac17ae5cd8f545051ac559111ca0f6bffc11dfc"
+          }
+        },
         {
           "client_id": "337458652030-q3gc9kckuu48o0lqqp5htujlljda84g4.apps.googleusercontent.com",
           "client_type": 3

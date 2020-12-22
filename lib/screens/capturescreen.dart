@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tflite/tflite.dart';
 import 'dart:io';
+import 'package:machine_learning_flutter_app/ux/popups.dart';
+import 'package:machine_learning_flutter_app/screens/resultsscreen.dart';
 
 class CaptureScreen extends StatefulWidget {
   static const String id = 'capture_screen';
@@ -39,7 +41,7 @@ class _CaptureScreenState extends State<CaptureScreen>{
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Teachable Machine Learning'),
+        title: const Text('Pothole capture'),
       ),
       body: _loading
           ? Container(
@@ -70,12 +72,46 @@ class _CaptureScreenState extends State<CaptureScreen>{
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: pickImage,
+        onPressed: (){
+          showPicker(context);
+        },
         child: Icon(Icons.image),
       ),
     );
   }
-  pickImage() async {
+
+  void showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Library'),
+                      onTap: () {
+                        pickImageGallery();
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      pickImageCamera();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+    );
+  }
+
+  pickImageGallery() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     if (image == null) return null;
     setState(() {
@@ -84,6 +120,17 @@ class _CaptureScreenState extends State<CaptureScreen>{
     });
     classifyImage(image);
   }
+
+  pickImageCamera() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    if (image == null) return null;
+    setState(() {
+      _loading = true;
+      _image = image;
+    });
+    classifyImage(image);
+  }
+
 
 
   classifyImage(File image) async {
@@ -97,6 +144,13 @@ class _CaptureScreenState extends State<CaptureScreen>{
     setState(() {
       _loading = false;
       _outputs = output;
+
+      String result = output[0]['index'] == 0 ? 'Pothole Not Found': 'Pothole Found';
+
+      print(output[0]['index']);
+
+      Navigator.pushNamed(context, ResultsScreen.id, arguments: result);
+
     });
   }
 

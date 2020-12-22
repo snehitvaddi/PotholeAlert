@@ -105,8 +105,6 @@ Future<void> updateFirestoreDocument(Map<String, dynamic> data, String collectio
 //  return phone;
 //}
 
-
-
 void sendInquiryEmail({name, email, number, message, alias, location, type, propertyCode}) async {
   await FirebaseFirestore.instance.collection('inquiries').doc()
       .set({   'to': 'newdoorapp@gmail.com',
