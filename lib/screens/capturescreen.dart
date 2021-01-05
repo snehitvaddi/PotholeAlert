@@ -5,6 +5,9 @@ import 'package:tflite/tflite.dart';
 import 'dart:io';
 import 'package:machine_learning_flutter_app/ux/popups.dart';
 import 'package:machine_learning_flutter_app/screens/resultsscreen.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:machine_learning_flutter_app/ux/customcolors.dart';
 
 class CaptureScreen extends StatefulWidget {
   static const String id = 'capture_screen';
@@ -40,42 +43,75 @@ class _CaptureScreenState extends State<CaptureScreen>{
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pothole capture'),
-      ),
-      body: _loading
-          ? Container(
-        alignment: Alignment.center,
-        child: CircularProgressIndicator(),
-      )
-          : Container(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _image == null ? Container() : Image.file(_image),
-            SizedBox(
-              height: 20,
+      body: Stack(
+        children: [
+          Positioned.fill(top: 0, right: -1,child: SvgPicture.asset('assets/background.svg', fit: BoxFit.fill,),),
+          Padding(
+            padding: const EdgeInsets.only(top:30.0),
+            child: Align(alignment: Alignment.topCenter, child: Image.asset('assets/walkincgclean2.png', height: 350, width: 450,),),
+          ),
+
+          Align(alignment: Alignment.bottomCenter, child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(40),
+                    topLeft: Radius.circular(40))),
+            height: height / 2.1,
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+                    child: Container(
+                      width: 300,
+                      height: 55,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)), color: buttonOrange
+                        ,),
+                      child: Center(child: Stack(
+                        children: <Widget>[
+                          Align(alignment: Alignment.center ,child: Text('Capture', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),)),
+                        ],
+                      )),
+                    ),
+
+                    onTap: (){
+                      showPicker(context);
+                    },),
+                ],),
+            ),)
+            ,),
+          _loading
+              ? Container(
+            alignment: Alignment.center,
+            child: CircularProgressIndicator(),
+          )
+              : Container(
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _image == null ? Container() : Image.file(_image),
+                SizedBox(
+                  height: 20,
+                ),
+                _outputs != null
+                    ? Text(
+                  "${_outputs[0]["label"]}",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20.0,
+                    background: Paint()..color = Colors.white,
+                  ),
+                )
+                    : Container()
+              ],
             ),
-            _outputs != null
-                ? Text(
-              "${_outputs[0]["label"]}",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20.0,
-                background: Paint()..color = Colors.white,
-              ),
-            )
-                : Container()
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          showPicker(context);
-        },
-        child: Icon(Icons.image),
+          ),
+        ],
       ),
     );
   }
@@ -88,20 +124,26 @@ class _CaptureScreenState extends State<CaptureScreen>{
             child: Container(
               child: new Wrap(
                 children: <Widget>[
-                  new ListTile(
-                      leading: new Icon(Icons.photo_library),
-                      title: new Text('Photo Library'),
+                  Material(
+                    color: Colors.white,
+                    child: ListTile(
+                        leading: Icon(Icons.photo_library, color: darkText,),
+                        title: Text('Photo Library', style: TextStyle(color: darkText, fontWeight: FontWeight.bold),),
+                        onTap: () {
+                          pickImageGallery();
+                          Navigator.of(context).pop();
+                        }),
+                  ),
+                  Material(
+                    color: Colors.white,
+                    child: ListTile(
+                      leading: Icon(Icons.photo_camera, color: darkText,),
+                      title: Text('Camera', style: TextStyle(color: darkText, fontWeight: FontWeight.bold),),
                       onTap: () {
-                        pickImageGallery();
+                        pickImageCamera();
                         Navigator.of(context).pop();
-                      }),
-                  new ListTile(
-                    leading: new Icon(Icons.photo_camera),
-                    title: new Text('Camera'),
-                    onTap: () {
-                      pickImageCamera();
-                      Navigator.of(context).pop();
-                    },
+                      },
+                    ),
                   ),
                 ],
               ),
