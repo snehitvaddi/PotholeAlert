@@ -189,7 +189,7 @@ class _CaptureScreenState extends State<CaptureScreen>{
 
       String result = output[0]['index'] == 0 ? 'Pothole Not Found': 'Pothole Found';
 
-      print(output[0]['index']);
+      print(output[0]['index']); 
 
       Navigator.pushNamed(context, ResultsScreen.id, arguments: result);
 
