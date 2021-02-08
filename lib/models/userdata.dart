@@ -5,6 +5,8 @@ class UserData with ChangeNotifier{
   UserData();
 
   String _userId = '';
+  String _userEmail = '';
+  String _userName = '';
 
 
   void setUserID(String text) {
@@ -12,6 +14,19 @@ class UserData with ChangeNotifier{
     notifyListeners();
   }
 
-
   String get getUserID => _userId;
+
+  void setUserEmail(String text) {
+    _userEmail = text;
+    notifyListeners();
+  }
+
+  String get getUserEmail => _userEmail;
+
+  void setUserName(String text) {
+    _userName = text;
+    notifyListeners();
+  }
+
+  String get getUserName => _userName;
 }

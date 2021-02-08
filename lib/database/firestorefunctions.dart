@@ -1,6 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:Pothole-Detection-Version2/models/signinreponse.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
+import 'package:machine_learning_flutter_app/ux/popups.dart';
+import 'package:machine_learning_flutter_app/screens/capturescreen.dart';
+
 
 
 //Future<void> updatePropertyInDatabase({PropertyModel propertyModel, String collection, String id}) {
@@ -78,49 +84,65 @@ import 'package:firebase_auth/firebase_auth.dart';
 //  }
 //}
 
+//savePotholeDetails({Map<String, dynamic> data, String collection, String id, context, fileName, name, email, location, lat, long}) {
+//  return FirebaseFirestore.instance.runTransaction((Transaction transactionHandler) {
+//    return FirebaseFirestore.instance
+//        .collection('potholes')
+//        .doc(id)
+//        .update(data);
+//  });
+//}
 
+Future <bool> alertAuthorities({dbID, context, fileName, name, email, address, lat, long}) {
 
-Future<void> updateFirestoreDocument(Map<String, dynamic> data, String collection, String id) {
+  DateTime dateTime = DateTime.now();
+
+  Map<String, dynamic> dbData = {
+    'name':name,
+    'email':email,
+    'address':address,
+    'lat': lat,
+    'long': long,
+    'dateTime' : dateTime,
+  };
+
   return FirebaseFirestore.instance.runTransaction((Transaction transactionHandler) {
     return FirebaseFirestore.instance
-        .collection(collection)
-        .doc(id)
-        .update(data);
+        .collection('potholes')
+        .doc(dbID)
+        .set(dbData);
+  }).then((_) async {
+    Reference firebaseStorageRef =
+    FirebaseStorage.instance.ref().child('uploads/$fileName');
+    UploadTask uploadTask = firebaseStorageRef.putFile(File(fileName));
+    TaskSnapshot taskSnapshot = await uploadTask;
+    taskSnapshot.ref.getDownloadURL().then(
+      (url) async {
+        await FirebaseFirestore.instance.collection('emails').doc()
+            .set({
+          'to': 'personalproject9999@gmail.com',
+          'message': {
+            'subject': 'Pothole Found',
+            'html':
+            'Name: ' + name + '<br>'+
+            'Email: ' + email +  '<br>'+
+            'Address: ' + address +  '<br>'+
+            'Lat: ' + lat.toString() +  '<br>'+
+            'Long: ' + long.toString() + '<br>' +
+            'ImageURL: ' + url + '<br>'
+          } }).then((value) async {
+          showAlertDialog(context: context, title: 'Authorities Alerted', text: "Thanks for letting us know", firstScreen: false);
+
+
+
+          });
+      },
+    );
+    return true;
   });
 }
 
 
-//Future <String> getContactNumber () async {
-//
-//  String phone = '';
-//
-//  DocumentReference documentReference =
-//  FirebaseFirestore.instance.collection("serviceContacts").doc("contact");
-//  await documentReference.get().then((datasnapshot) {
-//    if (datasnapshot.exists) {
-//      phone = datasnapshot.data.phone.toString();
-//    }
-//  });
-//
-//  return phone;
-//}
-
-void sendInquiryEmail({name, email, number, message, alias, location, type, propertyCode}) async {
-  await FirebaseFirestore.instance.collection('inquiries').doc()
-      .set({   'to': 'newdoorapp@gmail.com',
-    'message': {
-      'subject': 'An new inquiry has been received',
-      'html':
-            'Name: ' + name + '<br>'+
-            'Email: ' + email +  '<br>'+
-            'Number: ' + number +  '<br>'+
-            'Message: ' + message + '<br>'+
-              'Property Alias: ' + alias +  '<br>'+
-              'Location: ' + location +  '<br>'+
-                'Type: ' + type +  '<br>'+
-                'Code: ' + propertyCode +  '<br>'
-    } });
-}
 
 
 

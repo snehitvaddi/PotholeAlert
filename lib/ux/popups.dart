@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:machine_learning_flutter_app/screens/capturescreen.dart';
 
-bool showAlertDialog({BuildContext context, String title, String text}) {
-
+Future <bool> showAlertDialog({BuildContext context, String title, String text, bool firstScreen}) {
 
   // set up the button
   Widget okButton = FlatButton(
     child: Text("OK"),
     onPressed: () {
 
-      Navigator.of(context, rootNavigator: true)
-          .pop();
+      if (!firstScreen){
+        Navigator.pushNamed(context, CaptureScreen.id);
+      } else{
+        Navigator.pop(context);
+      }
+
 
       return true;
 
@@ -33,5 +37,4 @@ bool showAlertDialog({BuildContext context, String title, String text}) {
     },
   );
 
-  return true;
 }

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tflite/tflite.dart';
 import 'dart:io';
-import 'package:machine_learning_flutter_app/ux/popups.dart';
 import 'package:machine_learning_flutter_app/screens/resultsscreen.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:machine_learning_flutter_app/ux/customcolors.dart';
+import 'package:connectivity_widget/connectivity_widget.dart';
+
 
 class CaptureScreen extends StatefulWidget {
   static const String id = 'capture_screen';
@@ -43,7 +43,10 @@ class _CaptureScreenState extends State<CaptureScreen>{
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: Stack(
+      body:
+      ConnectivityWidget(
+        builder: (context, isOnline) =>
+      Stack(
         children: [
           Positioned.fill(top: 0, right: -1,child: SvgPicture.asset('assets/background.svg', fit: BoxFit.fill,),),
           Padding(
@@ -86,33 +89,13 @@ class _CaptureScreenState extends State<CaptureScreen>{
           _loading
               ? Container(
             alignment: Alignment.center,
-            child: CircularProgressIndicator(),
+            child: SizedBox(width: 100, height: 100,child: CircularProgressIndicator()),
           )
               : Container(
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _image == null ? Container() : Image.file(_image),
-                SizedBox(
-                  height: 20,
-                ),
-                _outputs != null
-                    ? Text(
-                  "${_outputs[0]["label"]}",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20.0,
-                    background: Paint()..color = Colors.white,
-                  ),
-                )
-                    : Container()
-              ],
-            ),
           ),
         ],
       ),
+    ),
     );
   }
 
@@ -173,8 +156,6 @@ class _CaptureScreenState extends State<CaptureScreen>{
     classifyImage(image);
   }
 
-
-
   classifyImage(File image) async {
     var output = await Tflite.runModelOnImage(
       path: image.path,
@@ -187,11 +168,11 @@ class _CaptureScreenState extends State<CaptureScreen>{
       _loading = false;
       _outputs = output;
 
-      String result = output[0]['index'] == 0 ? 'Pothole Not Found': 'Pothole Found';
+      String result = output[0]['index'] == 0 ? 'Our system found image does not contain a pothole': 'Our system found image contains a pothole';
 
-      print(output[0]['index']); 
+      var arguments = {'result' : result, 'image' : image.path, 'value' : output[0]['index']};
 
-      Navigator.pushNamed(context, ResultsScreen.id, arguments: result);
+      Navigator.pushNamed(context, ResultsScreen.id, arguments: arguments);
 
     });
   }

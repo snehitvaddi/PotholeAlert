@@ -10,6 +10,8 @@ import 'package:machine_learning_flutter_app/database/firestorefunctions.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:machine_learning_flutter_app/models/userdata.dart';
+import 'package:connectivity_widget/connectivity_widget.dart';
+
 
 void main() async {
 
@@ -37,6 +39,10 @@ class _PotHoleAppState extends State<PotHoleApp> {
   @override
   Widget build(BuildContext context) {
 
+    //setup connectivity server to ping and callback 
+    ConnectivityUtils.instance.setCallback((response) => response.contains("This is a test!"));
+    ConnectivityUtils.instance.setServerToPing("https://gist.githubusercontent.com/Vanethos/dccc4b4605fc5c5aa4b9153dacc7391c/raw/355ccc0e06d0f84fdbdc83f5b8106065539d9781/gistfile1.txt");
+
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -61,7 +67,7 @@ class _PotHoleAppState extends State<PotHoleApp> {
               SignInScreen.id: (context) => SignInScreen(),
               CaptureScreen.id: (context) => CaptureScreen(),
               ResultsScreen.id: (context) => ResultsScreen(settings.arguments),
-              AlertScreen.id: (context) => AlertScreen(),
+              AlertScreen.id: (context) => AlertScreen(settings.arguments),
             };
             WidgetBuilder builder = routes[settings.name];
             return MaterialPageRoute(builder: (ctx) => builder(ctx));

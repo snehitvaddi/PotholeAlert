@@ -10,6 +10,9 @@ import 'package:machine_learning_flutter_app/screens/capturescreen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:machine_learning_flutter_app/ux/customcolors.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:connectivity_widget/connectivity_widget.dart';
+
 
 class SignInScreen extends StatefulWidget {
   static const String id = 'sign_in_screen';
@@ -31,7 +34,11 @@ class _SignInScreenState extends State<SignInScreen>{
 
 
     return Scaffold(
-      body: Stack(
+
+      body:
+      ConnectivityWidget(
+        builder: (context, isOnline) =>
+            Stack(
           children: <Widget>[
 
 
@@ -52,7 +59,7 @@ class _SignInScreenState extends State<SignInScreen>{
                 child: Column(
                   children: [
                     SizedBox(height: 50,),
-                    Text('Welcome to Pothole Detector', style: GoogleFonts.roboto(
+                    Text('Welcome to The Pothole Reporter', style: GoogleFonts.roboto(
                       fontSize: 28,
                       fontWeight: FontWeight.w700,
                       color: darkText,
@@ -110,11 +117,14 @@ class _SignInScreenState extends State<SignInScreen>{
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        SvgPicture.asset('assets/facebook.svg', width: 35, height: 35,),
+                        InkWell(child: SvgPicture.asset('assets/linkedinyellow.svg', width: 35, height: 35,),
+                          onTap: (){
+                            launchURL(url: 'https://www.linkedin.com/in/snehitvaddi/');
+                          },),
                         SizedBox(width: 20,),
-                        SvgPicture.asset('assets/twitter.svg', width: 35, height: 35,),
-                        SizedBox(width: 20,),
-                        SvgPicture.asset('assets/email.svg', width: 35, height: 35,),
+                        InkWell(child: SvgPicture.asset('assets/githubyellow.svg', width: 35, height: 35,), onTap: (){
+                          launchURL(url: 'https://github.com/snehitvaddi');
+                        },),
                       ],
                     )
                 ],),
@@ -125,12 +135,13 @@ class _SignInScreenState extends State<SignInScreen>{
 
           ],
         ),
+      ),
     );
   }
 
   Future<void> _googleSignUp() async {
 
-    final globalData = Provider.of<UserData>(context, listen: false);
+    final userData = Provider.of<UserData>(context, listen: false);
 
     try {
       final GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -153,24 +164,30 @@ class _SignInScreenState extends State<SignInScreen>{
 
       if (user.emailVerified){
 
-      } else {
+        userData.setUserID(user.uid);
+        userData.setUserEmail(user.email);
+        userData.setUserName(user.displayName);
 
-        // Open popup to inform user of the error
-        showAlertDialog(context: context, title: 'Error', text: 'Google email is not verified');
+        print('running');
+
+        Navigator.pushNamed(
+            context, CaptureScreen.id);
+
+
 
       }
+//
+//      int timeNow = DateTime.now().millisecondsSinceEpoch;
 
-      int timeNow = DateTime.now().millisecondsSinceEpoch;
-
-      // Json for saving new user to database
-      Map<String, dynamic> userInfo =   {
-        'userName' : user.displayName,
-        'userEmail' : user.email,
-        'userJoinDate' :  timeNow,
-        'userAchievments' : {},
-        'userRecentActivity' : {},
-        'userAvatar' : user.photoUrl,
-      };
+//      // Json for saving new user to database
+//      Map<String, dynamic> userInfo =   {
+//        'userName' : user.displayName,
+//        'userEmail' : user.email,
+//        'userJoinDate' :  timeNow,
+//        'userAchievments' : {},
+//        'userRecentActivity' : {},
+//        'userAvatar' : user.photoURL,
+//      };
 
 //      // Create a new user in the database
 //      await updateFirestoreDocument(userInfo,'users', user.uid);
@@ -183,13 +200,22 @@ class _SignInScreenState extends State<SignInScreen>{
 //      globalData.notifyListeners();
 
 
-      Navigator.pushNamed(
-        context, CaptureScreen.id);
+
 
       return user;
     }catch (e) {
       // Open popup to inform user of the error
-      showAlertDialog(context: context, title: 'Error', text: 'Sign in encountered an error: ' + e.toString());
+      showAlertDialog(context: context, title: 'Error', text: 'Sign in encountered an error: ' + e.toString(), firstScreen: true);
     }
   }
+}
+
+void launchURL({String url}) async{
+
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    print('Could not launch url');
+  }
+
 }
