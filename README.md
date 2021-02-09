@@ -1,7 +1,7 @@
 
 ![FLutter Tensor Flow Tutorial](https://user-images.githubusercontent.com/55942632/73233781-926d3680-41ad-11ea-87ff-fdf7301f2cd2.png)
 
-# Ml With Flutter
+# End-to-End Pothole Detection & Authority Alerting Flutter APP.
 
 Learn how to build a tensorflow model on Techable Machine and then run it on flutter app.
 * [Youtube Tutorial](https://www.youtube.com/watch?v=-5kUv47xKy0)
