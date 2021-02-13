@@ -120,7 +120,8 @@ Future <bool> alertAuthorities({dbID, context, fileName, name, email, address, l
       (url) async {
         await FirebaseFirestore.instance.collection('emails').doc()
             .set({
-          'to': 'personalproject9999@gmail.com',
+              // Here add your receiver Email Id
+          'to': 'RecevierEmail@email.com',
           'message': {
             'subject': 'Pothole Found',
             'html':
