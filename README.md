@@ -11,6 +11,12 @@ This app captures image and classifies if it contains Pothole or not. If pothole
 This model is trained using Googles Teachable Machine to save time and resources. 
 * Learn to How to train a model and deploy on demo flutter here: [Youtube Tutorial](https://www.youtube.com/watch?v=-5kUv47xKy0), Github link: [Github](https://github.com/theindianappguy/machine_learning_flutter_app).
 
+## Helpful References
+* FLUTTER Location Coordinates to City and Place [Geolocator Blog](https://www.digitalocean.com/community/tutorials/flutter-geolocator-plugin).
+* Flutter object detection with tflite and Yolo [Deployment tuts](https://www.youtube.com/watch?v=0pYh7Js4GM8).
+* Flutter Camera image to Firebase [Part-1](https://www.youtube.com/watch?v=aBoYbMBTu7s), [Part-2](https://www.youtube.com/watch?v=GQ8iaKSSyDI).
+* Tensorflow official tflite deployment tutorial: [tflite blog](https://blog.tensorflow.org/2020/09/how-to-create-cartoonizer-with-tf-lite.html?m=1).
+
 ### Don't forget to star ⭐ the repo, it's FREE.
 
 ## Requirements
