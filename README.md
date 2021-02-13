@@ -4,18 +4,19 @@
 
 This app captures image and classifies if it contains Pothole or not. If pothole is present, app gets location and sends mail to the corresponding authories based location pothole is found. (<i>Distinct Emailing is still under development</i>)
 
-Learn how to build a tensorflow model on Techable Machine and then run it on flutter app.
-* [Youtube Tutorial](https://www.youtube.com/watch?v=-5kUv47xKy0)
+|🗃 Dataset|⚡ Tflite Model |📑 Labels|
+|:-:|:-:|:-:|
+|[Drive](https://drive.google.com/drive/folders/11ywgGuEDeMYVaoiP8SegzKVuxIfu3JCi?usp=sharing)|[Model](https://github.com/snehitvaddi/PotholeAlert/blob/master/assets/colab-pothole.tflite)|[Labels](https://github.com/snehitvaddi/PotholeAlert/blob/master/assets/labels.txt)|
 
-## Show Support
-* [Author LinkedIn](https://www.linkedin.com/in/lamsanskar/) 
-* [My LinkedIn](https://www.linkedin.com/in/snehitvaddi/)
+This model is trained using Googles Teachable Machine to save time and resources. 
+* Learn to How to train a model and deploy on demo flutter here: [Youtube Tutorial](https://www.youtube.com/watch?v=-5kUv47xKy0), Github link: [Github](https://github.com/theindianappguy/machine_learning_flutter_app).
 
-### Don't forget to star ⭐ the repo 😉, it's FREE.
+### Don't forget to star ⭐ the repo, it's FREE.
 
 ## Requirements
-- Any Operating System (ie. MacOS X, Linux, Windows)
+- Any Operating System (I'm on Windows)
 - Android Studio/Visual Studio Code
+- Updated Packages
 
-### Created & Maintained By
-[@snehitvaddi](https://github.com/snehitvaddi)
+### 🤝 Let's Connect
+[Snehit Vaddi's LinkedIn](https://www.linkedin.com/in/snehitvaddi/)
