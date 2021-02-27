@@ -28,4 +28,4 @@ This app captures image and classifies if it contains Pothole or not. If pothole
 * Enhance model performance by training model on India specific data. 
 
 ### 🤝 Let's Connect
-[Snehit Vaddi's LinkedIn](https://www.linkedin.com/in/snehitvaddi/)
+LinkedIn: [Snehit Vaddi's](https://www.linkedin.com/in/snehitvaddi/)
