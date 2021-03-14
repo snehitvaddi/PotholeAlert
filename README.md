@@ -1,5 +1,6 @@
 
 ## Pothole Detection & Authority Alerting App using Deep Learning.
+### APP UI
 ![FLutter APP UI](https://github.com/snehitvaddi/PotholeAlert/blob/master/Untitled%20design.jpg)
 
 This app captures image and classifies if it contains Pothole or not. If pothole is present, app gets location and sends mail to the corresponding authories based location pothole is found. (<i>Distinct Emailing is still under development</i>)
